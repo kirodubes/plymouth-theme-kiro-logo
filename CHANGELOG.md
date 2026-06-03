@@ -1,16 +1,5 @@
 # Changelog
 
-## 2026.06.03
-
-### What Changed
-- **Login-card LUKS prompt.** The encrypted-boot password prompt is now a framed card centred below the logo — dark fill with a Kiro-blue border (`box.png`), a lock icon at the left (`lock.png`), the typed characters as blue dots (`bullet.png`), and an "enter passphrase" label above — replacing the bare white "Enter Password" text + asterisks.
-
-### Technical Details
-- New PIL-generated assets: `box.png` (440×64 rounded card, fill `#0C1B33`, 2px `#0195F7` border), `lock.png` (34×34 padlock), `bullet.png` (Kiro-blue dot with built-in spacing).
-- `kiro-logo.script`: `DisplayPasswordCallback` rewritten to the box+lock+dots pattern from the stock `script` theme — `card_setup()` builds the sprites once at high Z, dots laid out after the lock, `card_opacity()` + `DisplayNormalCallback` hide it on unlock. Card centred at `screen.h * 0.82` to clear the 40%-height logo.
-- This prompt only renders now because the installer switched to systemd initramfs hooks (`sd-encrypt` → Plymouth's built-in password agent); with the old busybox `encrypt` hook the script callback never painted.
-- **Not yet render-tested on real hardware/VM** — verified via a static PIL mockup using the same assets + layout math; needs a `plymouthd --debug` / encrypted-boot pass to confirm positioning and the `Image.Text` label font (may swap to a baked `label.png` if it looks plain).
-
 ## 2026.05.29
 
 ### What Changed
