@@ -1,5 +1,40 @@
 # Changelog
 
+## 2026.06.04
+
+### What Changed
+- **Wedge-timing fix + bigger prompt font, ported from `-nemesis` after a passing test.** The green wedge now assembles by ~0.36 s (was ~1.9 s, so it never showed inside the splash window), and the encrypted-boot "Enter Password" prompt + dots render at `Sans Bold 20` instead of Plymouth's tiny ~12 pt default.
+- Both changes were validated on fresh **encrypted and unencrypted** installs via `plymouth-theme-kiro-logo-nemesis` on the `-next` ISO before landing here. The fancy login-card experiment was rejected (mispositioned on VirtualBox) — production stays KISS: simple centred prompt, no card.
+
+### Technical Details
+- `kiro-logo.script`: timeline constants `FADE_END 45→8`, `SLIDE_BEG 35→3`, `SLIDE_END 95→18` (post-assembly sin-wave breath unaffected — keys off `t − SLIDE_END`).
+- Font set via the 6th `Image.Text` arg: `Image.Text("Enter Password", 1, 1, 1, 1, "Sans Bold 20")` (line ~101) and the `*` bullet likewise (line 23).
+- This prompt only renders on encrypted boot once the installer uses systemd initramfs hooks (`sd-encrypt` → Plymouth's password agent); that switch shipped in parallel in `kiro-calamares-config`.
+
+## 2026.06.03
+
+### What Changed
+- **Reverted the password-card / "boxes" experiment** — the previous `-02`-era
+  commit (added `box.png`, `bullet.png`, `lock.png` and rewrote
+  `kiro-logo.script` with a framed LUKS login card) broke the splash at boot:
+  the logo dropped out and the prompt fell back to bare text. Rolled the source
+  repo back to the clean self-assembling-K logo.
+
+### Technical Details
+- `git revert` of the boxes commit (new revert commit, history intact — no
+  force-push). Removed `box.png` / `bullet.png` / `lock.png`; restored the prior
+  `kiro-logo.script`. Theme dir back to `kiro-logo.plymouth`, `kiro-logo.script`,
+  `logo.png`, `logo-body.png`, `logo-wedge.png`.
+- The card experiment is preserved in the parallel
+  `plymouth-theme-kiro-logo-nemesis` repo (opt-in `conflicts`-only package),
+  where the wedge-timing and asset-packaging fixes were worked out and
+  render-tested.
+- The served `nemesis_repo` package was independently rolled back `26.06-02 → -01`.
+
+### Files Modified
+- `usr/share/plymouth/themes/kiro-logo/kiro-logo.script` (restored)
+- `usr/share/plymouth/themes/kiro-logo/box.png`, `bullet.png`, `lock.png` (removed)
+
 ## 2026.05.29
 
 ### What Changed

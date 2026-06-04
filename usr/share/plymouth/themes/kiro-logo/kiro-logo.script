@@ -20,7 +20,7 @@ answer = null;
 message = null;
 bullets = null;
 prompt = null;
-bullet.image = Image.Text("*", 1, 1, 1);
+bullet.image = Image.Text("*", 1, 1, 1, 1, "Sans Bold 20");
 
 state.status = "play";
 state.time = 0.0;
@@ -52,9 +52,9 @@ slide.dx = Math.Int(target.w * 0.55);
 slide.dy = Math.Int(target.h * 0.30);
 
 // Timing in refresh ticks (~50 Hz)
-FADE_END = 45;
-SLIDE_BEG = 35;
-SLIDE_END = 95;
+FADE_END = 8;
+SLIDE_BEG = 3;
+SLIDE_END = 18;
 
 fun ease_out(p) {
     q = 1 - p;
@@ -98,7 +98,7 @@ fun DisplayPasswordCallback(nil, bulletCount) {
     totalWidth = bulletCount * bullet.image.GetWidth();
     startPos = screen.half.w - totalWidth / 2;
 
-    prompt.image = Image.Text("Enter Password", 1, 1, 1);
+    prompt.image = Image.Text("Enter Password", 1, 1, 1, 1, "Sans Bold 20");
     prompt.sprite = Sprite(prompt.image);
     prompt.sprite.SetX(screen.half.w - prompt.image.GetWidth() / 2);
     prompt.sprite.SetY(screen.h - 4 * prompt.image.GetHeight());
