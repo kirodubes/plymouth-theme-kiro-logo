@@ -92,6 +92,9 @@ fun refresh_callback() {
 Plymouth.SetRefreshFunction(refresh_callback);
 
 //------------------------------------- Password prompt ----------------------------
+// KISS: a bigger "Enter Password" label centred below the logo, with the typed
+// characters shown as a row of dots underneath. The framed card was dropped — the
+// box was fiddly to position reliably across resolutions (mispositioned in testing).
 
 fun DisplayPasswordCallback(nil, bulletCount) {
     state.status = "pause";
